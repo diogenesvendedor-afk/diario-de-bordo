@@ -1,0 +1,14 @@
+{
+  "name": "Diário de Bordo — Vendas",
+  "short_name": "Diário de Bordo",
+  "description": "Coaching diário de vendas para Bondmann Química e Bransales Pneus",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#181C20",
+  "theme_color": "#181C20",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diário de Bordo — Vendas</title>
+<meta name="theme-color" content="#181C20">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#181C20; --panel:#20262B; --panel-alt:#262D33; --border:#333C42;
+    --text:#EDEFF1; --muted:#8B96A0; --orange:#E8622C; --teal:#2FA6A0; --amber:#C9962B;
+    --marca:#E8622C; --prospeccao:#2FA6A0; --tecnico:#5B8DBE; --negociacao:#C9962B; --gestao:#8D7FB3;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; }
+  .display { font-family:'Barlow Condensed',sans-serif; letter-spacing:.02em; text-transform:uppercase; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  button { font-family:inherit; cursor:pointer; }
+  input,textarea,select { font-family:inherit; }
+  #app { max-width:640px; margin:0 auto; padding-bottom:70px; }
+  header { padding:20px 16px 12px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:10; display:flex; justify-content:space-between; align-items:flex-start; }
+  header .os { font-size:13px; color:var(--orange); font-weight:700; }
+  header h1 { font-size:26px; font-weight:700; margin:2px 0 0; line-height:1.05; }
+  header .sub { font-size:11px; color:var(--muted); margin-top:3px; }
+  .streak { display:flex; align-items:center; gap:6px; color:var(--orange); font-size:20px; font-weight:700; }
+  nav.tabs { display:flex; border-bottom:1px solid var(--border); overflow-x:auto; }
+  nav.tabs button { flex:1; padding:12px 6px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:11px; font-weight:600; }
+  nav.tabs button.active { color:var(--text); border-bottom-color:var(--orange); }
+  main { padding:16px; }
+  .day-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .day-nav button { background:var(--panel-alt); border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--text); }
+  .gauge-wrap { display:flex; align-items:center; justify-content:center; position:relative; margin-bottom:20px; }
+  .gauge-label { position:absolute; text-align:center; }
+  .gauge-label .pct { font-size:24px; font-weight:700; }
+  .gauge-label .lbl { font-size:10px; color:var(--muted); }
+  .pillar-block { margin-bottom:18px; }
+  .pillar-title { display:flex; align-items:center; gap:6px; margin-bottom:8px; font-size:13px; font-weight:600; }
+  .task { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start; }
+  .task .box { width:20px; height:20px; border-radius:5px; border:1.5px solid var(--muted); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; }
+  .task.done { opacity:.6; }
+  .task.done .box { background:var(--check-color); border-color:var(--check-color); }
+  .task .ttitle { font-size:14px; font-weight:600; }
+  .task.done .ttitle { text-decoration:line-through; }
+  .task .tdesc { font-size:12px; color:var(--muted); margin-top:2px; }
+  .tag { font-size:9px; margin-left:6px; padding:1px 5px; border-radius:4px; }
+  .empty { text-align:center; color:var(--muted); padding:24px; font-size:13px; }
+  .field { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:10px; margin-bottom:10px; }
+  .field label { font-size:11px; color:var(--muted); display:block; margin-bottom:4px; }
+  .field input, .field textarea { width:100%; background:none; border:none; color:var(--text); font-size:18px; font-weight:700; }
+  .field textarea { font-size:13px; font-weight:400; min-height:50px; resize:vertical; }
+  .btn-primary { background:var(--orange); border:none; border-radius:6px; padding:8px 14px; color:#181C20; font-weight:700; font-size:12px; }
+  .btn-secondary { background:none; border:1px solid var(--border); border-radius:6px; padding:8px 14px; color:var(--muted); font-size:12px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+  .phase-card { border-radius:10px; padding:14px; margin-bottom:10px; border:1px solid var(--border); background:var(--panel); }
+  .phase-card.active { border-color:var(--orange); background:var(--panel-alt); }
+  .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:var(--panel-alt); border:1px solid var(--border); padding:8px 16px; border-radius:20px; font-size:12px; color:var(--teal); }
+  #gear { position:fixed; bottom:16px; right:16px; background:var(--panel-alt); border:1px solid var(--border); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:18px; }
+  .modal-bg { position:fixed; inset:0; background:#000a; display:flex; align-items:center; justify-content:center; z-index:50; padding:16px; }
+  .modal { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px; max-width:480px; width:100%; }
+  .modal h3 { margin-top:0; }
+  .modal input, .modal textarea, .modal select { width:100%; background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; padding:8px; color:var(--text); margin-bottom:8px; font-size:13px; }
+  a { color:var(--teal); }
+</style>
+</head>
+<body>
+<div id="app"><div style="padding:40px;text-align:center;color:var(--muted)" class="mono">carregando diário de bordo…</div></div>
+<button id="gear" onclick="openConfig()">⚙</button>
+
+<script>
+/* ================= CONFIG ================= */
+const PILLARS = {
+  marca:      { label:'Marca Pessoal',      full:'Marca Pessoal & Autoridade',      color:'var(--marca)' },
+  prospeccao: { label:'Prospecção',         full:'Prospecção & Pipeline',           color:'var(--prospeccao)' },
+  tecnico:    { label:'Domínio Técnico',    full:'Domínio Técnico Consultivo',      color:'var(--tecnico)' },
+  negociacao: { label:'Negociação',         full:'Negociação & Fechamento',         color:'var(--negociacao)' },
+  gestao:     { label:'Gestão',             full:'Gestão & Métricas',               color:'var(--gestao)' },
+};
+const PORTFOLIO = {
+  bondmann:  { label:'Bondmann',  color:'#5B8DBE' },
+  bransales: { label:'Bransales', color:'#E8622C' },
+  ambos:     { label:'Ambos',     color:'#8B96A0' },
+  pessoal:   { label:'Pessoal',   color:'#8B96A0' },
+};
+const WEEKDAY_LABEL = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const WEEKDAY_SHORT = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+const PHASES = [
+  { key:'fundacao', label:'Fundação', weeks:[1,4], desc:'Construir consistência: cumprir a rotina diária vira hábito, não meta.' },
+  { key:'expansao', label:'Expansão', weeks:[5,8], desc:'Aumentar volume: mais prospecção, mais conteúdo, mais follow-up.' },
+  { key:'autoridade', label:'Autoridade', weeks:[9,999], desc:'Ser procurado: indicações inbound, conteúdo técnico, referência no setor.' },
+];
+
+let API_URL = localStorage.getItem('nsp_api_url') || '';
+let state = { library:[], log:[], metrics:[], config:{}, tab:'hoje', dayOffset:0 };
+
+/* ================= HELPERS ================= */
+const fmtDate = d => { const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; };
+function isoWeek(d){ const dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); const dn=dt.getUTCDay()||7; dt.setUTCDate(dt.getUTCDate()+4-dn); const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1)); const wn=Math.ceil((((dt-ys)/86400000)+1)/7); return `${dt.getUTCFullYear()}-W${String(wn).padStart(2,'0')}`; }
+
+async function api(action, payload) {
+  if (!API_URL) { openConfig(); throw new Error('sem API configurada'); }
+  if (!action) {
+    const res = await fetch(API_URL);
+    return res.json();
+  }
+  const res = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action, ...payload }) });
+  return res.json();
+}
+
+function openConfig() {
+  const bg = document.createElement('div');
+  bg.className = 'modal-bg';
+  bg.innerHTML = `<div class="modal">
+    <h3 class="display">Conectar planilha</h3>
+    <p style="font-size:12px;color:var(--muted)">Cole a URL do Apps Script publicado como App da Web (Implantar > Nova implantação).</p>
+    <input id="apiInput" placeholder="https://script.google.com/macros/s/.../exec" value="${API_URL}">
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-primary" onclick="saveConfig()">Salvar</button>
+      <button class="btn-secondary" onclick="this.closest('.modal-bg').remove()">Cancelar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(bg);
+}
+function saveConfig() {
+  const val = document.getElementById('apiInput').value.trim();
+  if (!val) return;
+  API_URL = val;
+  localStorage.setItem('nsp_api_url', val);
+  document.querySelector('.modal-bg').remove();
+  load();
+}
+
+/* ================= LOAD / RENDER ================= */
+async function load() {
+  try {
+    const data = await api();
+    state.library = data.library || [];
+    state.log = data.log || [];
+    state.metrics = data.metrics || [];
+    state.config = data.config || {};
+    localStorage.setItem('nsp_cache', JSON.stringify(state));
+  } catch (e) {
+    const cached = localStorage.getItem('nsp_cache');
+    if (cached) { Object.assign(state, JSON.parse(cached)); showToast('offline — usando dados salvos'); }
+  }
+  render();
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+function weekNumber() {
+  const start = state.config.startDate ? new Date(state.config.startDate + 'T00:00:00') : new Date();
+  const diff = Math.floor((new Date() - start) / 86400000);
+  return Math.max(1, Math.floor(diff / 7) + 1);
+}
+function currentPhase() {
+  const w = weekNumber();
+  return PHASES.find(p => w >= p.weeks[0] && w <= p.weeks[1]) || PHASES[PHASES.length - 1];
+}
+function streak() {
+  let count = 0;
+  for (let i = 0; i < 60; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = fmtDate(d);
+    const dayTasks = state.library.filter(t => Number(t.day) === d.getDay());
+    if (!dayTasks.length) continue;
+    const done = state.log.filter(l => l.date === key && l.done === true && dayTasks.some(t => t.id === l.taskId)).length;
+    const ratio = done / dayTasks.length;
+    if (i === 0 && ratio < 0.8) continue;
+    if (ratio >= 0.8) count++; else break;
+  }
+  return count;
+}
+
+function render() {
+  const app = document.getElementById('app');
+  const viewDate = new Date(); viewDate.setDate(viewDate.getDate() + state.dayOffset);
+  const viewKey = fmtDate(viewDate);
+  const wd = viewDate.getDay();
+  const todaysTasks = state.library.filter(t => Number(t.day) === wd);
+  const doneIds = new Set(state.log.filter(l => l.date === viewKey && l.done === true).map(l => l.taskId));
+  const pct = todaysTasks.length ? Math.round((todaysTasks.filter(t => doneIds.has(t.id)).length / todaysTasks.length) * 100) : 0;
+  const phase = currentPhase();
+
+  let html = `
+  <header>
+    <div>
+      <div class="os mono">OS Nº ${String(weekNumber()).padStart(3,'0')} · SEMANA ${weekNumber()}</div>
+      <h1 class="display">Diário de Bordo</h1>
+      <div class="sub mono">Fase: ${phase.label.toUpperCase()} · Bondmann + Bransales</div>
+    </div>
+    <div class="streak">🔥<span class="mono">${streak()}</span></div>
+  </header>
+  <nav class="tabs">
+    <button class="${state.tab==='hoje'?'active':''}" onclick="setTab('hoje')">Hoje</button>
+    <button class="${state.tab==='biblioteca'?'active':''}" onclick="setTab('biblioteca')">Biblioteca</button>
+    <button class="${state.tab==='metricas'?'active':''}" onclick="setTab('metricas')">Métricas</button>
+    <button class="${state.tab==='fase'?'active':''}" onclick="setTab('fase')">Programa</button>
+  </nav>
+  <main>`;
+
+  if (state.tab === 'hoje') {
+    html += `
+    <div class="day-nav">
+      <button onclick="shiftDay(-1)">‹</button>
+      <div style="text-align:center"><div class="display" style="font-size:18px;font-weight:700">${WEEKDAY_LABEL[wd]}</div>
+        <div class="mono" style="font-size:11px;color:var(--muted)">${viewDate.toLocaleDateString('pt-BR')}</div></div>
+      <button onclick="shiftDay(1)">›</button>
+    </div>
+    <div class="gauge-wrap">${gaugeSvg(pct)}<div class="gauge-label"><div class="pct mono">${pct}%</div><div class="lbl">concluído</div></div></div>`;
+
+    if (!todaysTasks.length) html += `<div class="empty">Nenhuma tarefa cadastrada para ${WEEKDAY_LABEL[wd].toLowerCase()}. Adicione uma na aba Biblioteca.</div>`;
+
+    Object.entries(PILLARS).forEach(([pKey, pInfo]) => {
+      const tasks = todaysTasks.filter(t => t.pillar === pKey);
+      if (!tasks.length) return;
+      html += `<div class="pillar-block"><div class="pillar-title" style="color:${pInfo.color}">${pInfo.full}</div>`;
+      tasks.forEach(t => {
+        const done = doneIds.has(t.id);
+        const portTag = (t.portfolio !== 'ambos' && t.portfolio !== 'pessoal')
+          ? `<span class="tag" style="background:${PORTFOLIO[t.portfolio].color}33;color:${PORTFOLIO[t.portfolio].color}">${PORTFOLIO[t.portfolio].label.toUpperCase()}</span>` : '';
+        html += `<div class="task ${done?'done':''}" style="border-left:4px solid ${pInfo.color};--check-color:${pInfo.color}" onclick="toggleTask('${viewKey}','${t.id}')">
+          <div class="box">${done?'✓':''}</div>
+          <div><div class="ttitle">${t.title}${portTag}</div><div class="tdesc">${t.desc}</div></div>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+  }
+
+  if (state.tab === 'biblioteca') {
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="display" style="font-size:16px;font-weight:700">Biblioteca de tarefas</div>
+      <button class="btn-primary" onclick="openAddTask()">+ Nova</button></div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Toda tarefa aqui aparece automaticamente no dia da semana escolhido, todas as semanas.</div>`;
+    [1,2,3,4,5,6,0].forEach(d => {
+      const tasks = state.library.filter(t => Number(t.day) === d);
+      if (!tasks.length) return;
+      html += `<div style="margin-bottom:16px"><div class="mono" style="font-size:11px;color:var(--orange);font-weight:700;margin-bottom:6px">${WEEKDAY_SHORT[d]}</div>`;
+      tasks.forEach(t => {
+        const p = PILLARS[t.pillar];
+        html += `<div class="task" style="border-left:4px solid ${p.color}">
+          <div style="flex:1"><div class="ttitle">${t.title}</div><div class="tdesc">${p.label} · ${PORTFOLIO[t.portfolio].label}</div></div>
+          <button onclick="removeTask('${t.id}')" style="background:none;border:none;color:var(--muted)">🗑</button>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+  }
+
+  if (state.tab === 'metricas') {
+    const wk = isoWeek(new Date());
+    const m = state.metrics.find(x => x.week === wk) || { visitas:'', propostas:'', fechamentos:'', faturamento:'', obs:'' };
+    html += `<div class="display" style="font-size:16px;font-weight:700">Métricas da semana</div>
+      <div class="mono" style="font-size:11px;color:var(--muted);margin-bottom:16px">${wk}</div>
+      <div class="grid2">
+        ${['visitas','propostas','fechamentos','faturamento'].map(f => `
+          <div class="field"><label>${({visitas:'Visitas/contatos',propostas:'Propostas enviadas',fechamentos:'Fechamentos',faturamento:'Faturamento (R$)'})[f]}</label>
+          <input type="text" inputmode="numeric" value="${m[f]||''}" onchange="updateMetric('${wk}','${f}',this.value)" class="mono"></div>`).join('')}
+      </div>
+      <div class="field"><label>Observações da semana</label><textarea onchange="updateMetric('${wk}','obs',this.value)">${m.obs||''}</textarea></div>`;
+    if (m.visitas && m.propostas) {
+      const t1 = Math.round((Number(m.propostas)/Math.max(1,Number(m.visitas)))*100);
+      const t2 = m.fechamentos ? ` · proposta → fechamento: ${Math.round((Number(m.fechamentos)/Math.max(1,Number(m.propostas)))*100)}%` : '';
+      html += `<div class="mono" style="font-size:12px;color:var(--teal);margin-bottom:20px">Taxa visita → proposta: ${t1}%${t2}</div>`;
+    }
+    html += `<div class="display" style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">Histórico recente</div>`;
+    const recent = [...state.metrics].sort((a,b)=>a.week.localeCompare(b.week)).slice(-8);
+    if (!recent.length) html += `<div style="font-size:12px;color:var(--muted)">Ainda sem semanas registradas.</div>`;
+    const maxVal = Math.max(1, ...recent.map(r => Number(r.propostas)||0));
+    recent.forEach(r => {
+      const barW = Math.max(4, ((Number(r.propostas)||0)/maxVal)*100);
+      html += `<div style="margin-bottom:8px"><div class="mono" style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
+        <span>${r.week}</span><span>${r.visitas||0}v · ${r.propostas||0}p · ${r.fechamentos||0}f</span></div>
+        <div style="height:6px;background:var(--panel-alt);border-radius:3px"><div style="height:6px;width:${barW}%;background:var(--orange);border-radius:3px"></div></div></div>`;
+    });
+  }
+
+  if (state.tab === 'fase') {
+    html += `<div class="display" style="font-size:16px;font-weight:700;margin-bottom:14px">Estrutura do programa</div>`;
+    PHASES.forEach(p => {
+      const active = p.key === phase.key;
+      html += `<div class="phase-card ${active?'active':''}">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="display" style="font-weight:700;font-size:14px;color:${active?'var(--orange)':'var(--text)'}">${p.label.toUpperCase()}</span>
+          <span class="mono" style="font-size:11px;color:var(--muted)">${p.weeks[1]===999?`semana ${p.weeks[0]}+`:`semanas ${p.weeks[0]}–${p.weeks[1]}`}</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">${p.desc}</div>
+        ${active?`<div class="mono" style="font-size:10px;color:var(--orange);margin-top:6px">◉ VOCÊ ESTÁ AQUI · semana ${weekNumber()}</div>`:''}
+      </div>`;
+    });
+    html += `<div style="margin-top:20px;font-size:12px;color:var(--muted);line-height:1.6">
+      <strong style="color:var(--text)">Integração com o CRM:</strong> essa planilha é independente da sua planilha de prospecção. Para puxar números reais automaticamente, use uma fórmula <span class="mono">IMPORTRANGE</span> na aba Métricas apontando para a planilha do CRM — veja o README para o passo a passo.
+    </div>`;
+  }
+
+  html += `</main>`;
+  app.innerHTML = html;
+}
+
+function gaugeSvg(pct) {
+  const size=116, stroke=10, r=(size-stroke)/2, c=2*Math.PI*r, offset=c-(Math.min(pct,100)/100)*c;
+  const color = pct>=80?'#2FA6A0':pct>=40?'#C9962B':'#E8622C';
+  return `<svg width="${size}" height="${size}" style="transform:rotate(-90deg)">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#39424A" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round" style="transition:stroke-dashoffset .4s"/>
+  </svg>`;
+}
+
+/* ================= ACTIONS ================= */
+function setTab(t) { state.tab = t; render(); }
+function shiftDay(n) { state.dayOffset += n; render(); }
+
+async function toggleTask(date, taskId) {
+  const existing = state.log.find(l => l.date===date && l.taskId===taskId);
+  if (existing) existing.done = !existing.done; else state.log.push({date,taskId,done:true});
+  render();
+  try { await api('toggleTask', {date, taskId}); } catch(e) { showToast('falha ao salvar — verifique a conexão'); }
+}
+
+function openAddTask() {
+  const bg = document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML = `<div class="modal"><h3 class="display">Nova tarefa</h3>
+    <input id="ntTitle" placeholder="Título da tarefa">
+    <textarea id="ntDesc" placeholder="Descrição / instrução"></textarea>
+    <select id="ntDay">${WEEKDAY_LABEL.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select>
+    <select id="ntPillar">${Object.entries(PILLARS).map(([k,v])=>`<option value="${k}">${v.full}</option>`).join('')}</select>
+    <select id="ntPort">${Object.entries(PORTFOLIO).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}</select>
+    <div style="display:flex;gap:8px"><button class="btn-primary" onclick="submitAddTask()">Salvar</button>
+    <button class="btn-secondary" onclick="this.closest('.modal-bg').remove()">Cancelar</button></div></div>`;
+  document.body.appendChild(bg);
+}
+async function submitAddTask() {
+  const task = {
+    title: document.getElementById('ntTitle').value.trim(),
+    desc: document.getElementById('ntDesc').value.trim(),
+    day: Number(document.getElementById('ntDay').value),
+    pillar: document.getElementById('ntPillar').value,
+    portfolio: document.getElementById('ntPort').value,
+  };
+  if (!task.title) return;
+  document.querySelector('.modal-bg').remove();
+  const res = await api('addTask', { task });
+  state.library.push({ ...task, id: res.id, ativo: true });
+  render();
+}
+async function removeTask(id) {
+  state.library = state.library.filter(t => t.id !== id);
+  render();
+  try { await api('removeTask', { id }); } catch(e) { showToast('falha ao salvar'); }
+}
+async function updateMetric(week, field, value) {
+  let m = state.metrics.find(x => x.week === week);
+  if (!m) { m = { week }; state.metrics.push(m); }
+  m[field] = value;
+  try { await api('updateMetric', { week, field, value }); } catch(e) { showToast('falha ao salvar'); }
+}
+
+/* ================= INIT ================= */
+if (!API_URL) setTimeout(openConfig, 400);
+load();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
