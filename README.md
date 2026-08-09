@@ -70,6 +70,45 @@ planilha) que eu escrevo a fórmula exata pronta para colar.
 | `Log` | date, taskId, done, timestamp | o que foi marcado como feito, dia a dia |
 | `Metricas` | week, visitas, propostas, fechamentos, faturamento, obs | KPIs semanais |
 | `Config` | key, value | data de início do programa etc. |
+| `Visitas` | id, date, cliente, empresa, portfolio, endereco, objetivo, status, notas | agenda semanal de visitas |
+| `Clientes` | id, empresa, cnpj, cnae, segmento, portfolio, contato, telefone, cidade, potencial, notas | base de clientes p/ sugestão de estratégia |
+| `Conhecimento` | id, pillar, portfolio, title, content, tags | guias validados (SPIN, Challenger, marca pessoal etc.) |
 
 Tudo isso é uma planilha comum — dá pra abrir, olhar os números e até editar
 diretamente lá, além de editar pelo app.
+
+## Atualizando para a versão com Agenda, Clientes e Guia
+
+1. No editor do Apps Script (Extensões > Apps Script), apague todo o conteúdo
+   e cole o `Code.gs` novo por cima do antigo.
+2. Rode `setupSheet` de novo. É seguro: ele recria `Biblioteca` e `Conhecimento`
+   do zero (biblioteca de tarefas e guias padrão), mas **não apaga** nada que
+   já exista em `Visitas`, `Clientes` ou `Log`.
+3. Vá em **Implantar > Gerenciar implantações**, clique no lápis (editar) na
+   implantação existente, em "Versão" escolha **Nova versão** e clique em
+   **Implantar**. A URL da API continua a mesma — não precisa colar de novo no app.
+4. No repositório do GitHub, suba o `index.html` novo por cima do antigo
+   (Add file > Upload files, arrasta e substitui). O GitHub Pages atualiza
+   sozinho em cerca de 1 minuto.
+
+## Como importar sua planilha de visitas da semana
+
+No app, aba **Agenda > Importar**: copie da sua planilha de visitas as colunas,
+nesta ordem — **Data, Cliente, Empresa, Portfólio, Endereço, Objetivo** — sem
+o cabeçalho, cole na caixa de texto e clique em Importar. Cada linha vira uma
+visita na Agenda, e as de hoje aparecem automaticamente na aba **Hoje**.
+
+Se preferir manter as duas planilhas conectadas por fórmula em vez de colar
+toda semana, use `IMPORTRANGE` (mesmo princípio da seção anterior) numa aba
+extra da planilha de visitas, apontando para a aba `Visitas` desta planilha.
+
+## Como funciona a sugestão de estratégia (aba Clientes)
+
+Não usa nenhuma API externa nem chave paga — é um cruzamento de regras dentro
+da própria planilha: o `segmento`/`cnae` do cliente é comparado com as tags de
+cada guia da aba `Conhecimento`, e os guias mais relevantes (e do portfólio
+certo, Bondmann ou Bransales) aparecem como sugestão. Quanto mais completo o
+campo *segmento* do cliente (ex: "metalúrgica", "transportadora de cargas"),
+melhor a sugestão. Os guias em si ficam na aba `Conhecimento` — edite ou
+adicione linhas lá (ou peça pra mim) para deixar as sugestões mais afiadas
+com o tempo.

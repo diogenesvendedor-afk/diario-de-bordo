@@ -29,7 +29,7 @@
   header .sub { font-size:11px; color:var(--muted); margin-top:3px; }
   .streak { display:flex; align-items:center; gap:6px; color:var(--orange); font-size:20px; font-weight:700; }
   nav.tabs { display:flex; border-bottom:1px solid var(--border); overflow-x:auto; }
-  nav.tabs button { flex:1; padding:12px 6px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:11px; font-weight:600; }
+  nav.tabs button { flex:0 0 auto; min-width:78px; padding:12px 6px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:11px; font-weight:600; }
   nav.tabs button.active { color:var(--text); border-bottom-color:var(--orange); }
   main { padding:16px; }
   .day-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -38,8 +38,7 @@
   .gauge-label { position:absolute; text-align:center; }
   .gauge-label .pct { font-size:24px; font-weight:700; }
   .gauge-label .lbl { font-size:10px; color:var(--muted); }
-  .pillar-block { margin-bottom:18px; }
-  .pillar-title { display:flex; align-items:center; gap:6px; margin-bottom:8px; font-size:13px; font-weight:600; }
+  .section-title { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:8px; font-size:13px; font-weight:600; }
   .task { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start; }
   .task .box { width:20px; height:20px; border-radius:5px; border:1.5px solid var(--muted); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; }
   .task.done { opacity:.6; }
@@ -55,16 +54,32 @@
   .field textarea { font-size:13px; font-weight:400; min-height:50px; resize:vertical; }
   .btn-primary { background:var(--orange); border:none; border-radius:6px; padding:8px 14px; color:#181C20; font-weight:700; font-size:12px; }
   .btn-secondary { background:none; border:1px solid var(--border); border-radius:6px; padding:8px 14px; color:var(--muted); font-size:12px; }
+  .btn-teal { background:var(--teal); border:none; border-radius:6px; padding:6px 10px; color:#181C20; font-weight:700; font-size:11px; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
   .phase-card { border-radius:10px; padding:14px; margin-bottom:10px; border:1px solid var(--border); background:var(--panel); }
   .phase-card.active { border-color:var(--orange); background:var(--panel-alt); }
-  .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:var(--panel-alt); border:1px solid var(--border); padding:8px 16px; border-radius:20px; font-size:12px; color:var(--teal); }
-  #gear { position:fixed; bottom:16px; right:16px; background:var(--panel-alt); border:1px solid var(--border); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:18px; }
-  .modal-bg { position:fixed; inset:0; background:#000a; display:flex; align-items:center; justify-content:center; z-index:50; padding:16px; }
-  .modal { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px; max-width:480px; width:100%; }
+  .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:var(--panel-alt); border:1px solid var(--border); padding:8px 16px; border-radius:20px; font-size:12px; color:var(--teal); z-index:60; }
+  #gear { position:fixed; bottom:16px; right:16px; background:var(--panel-alt); border:1px solid var(--border); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:18px; z-index:20; }
+  .modal-bg { position:fixed; inset:0; background:#000a; display:flex; align-items:center; justify-content:center; z-index:50; padding:16px; overflow-y:auto; }
+  .modal { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px; max-width:480px; width:100%; max-height:90vh; overflow-y:auto; }
   .modal h3 { margin-top:0; }
   .modal input, .modal textarea, .modal select { width:100%; background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; padding:8px; color:var(--text); margin-bottom:8px; font-size:13px; }
+  .modal textarea.mono { font-family:'JetBrains Mono',monospace; font-size:11px; min-height:110px; }
   a { color:var(--teal); }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px; }
+  .card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .card-title { font-size:14px; font-weight:600; }
+  .card-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+  .chip { font-size:10px; padding:2px 7px; border-radius:10px; display:inline-block; }
+  .status-pendente { background:#C9962B33; color:#C9962B; }
+  .status-feita { background:#2FA6A033; color:#2FA6A0; }
+  .status-cancelada { background:#8B96A033; color:#8B96A0; }
+  .kb-content { font-size:12px; color:var(--muted); line-height:1.6; margin-top:6px; display:none; }
+  .kb-content.open { display:block; }
+  .weekday-header { font-size:11px; font-weight:700; color:var(--orange); margin:14px 0 6px; }
+  .icon-btn { background:none; border:none; color:var(--muted); font-size:14px; padding:4px; }
+  .filter-row { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+  .filter-row select { background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; padding:6px 8px; color:var(--text); font-size:12px; }
 </style>
 </head>
 <body>
@@ -72,7 +87,7 @@
 <button id="gear" onclick="openConfig()">⚙</button>
 
 <script>
-/* ================= CONFIG ================= */
+/* ================= CONFIG / DADOS ESTÁTICOS ================= */
 const PILLARS = {
   marca:      { label:'Marca Pessoal',      full:'Marca Pessoal & Autoridade',      color:'var(--marca)' },
   prospeccao: { label:'Prospecção',         full:'Prospecção & Pipeline',           color:'var(--prospeccao)' },
@@ -95,25 +110,30 @@ const PHASES = [
 ];
 
 let API_URL = localStorage.getItem('nsp_api_url') || '';
-let state = { library:[], log:[], metrics:[], config:{}, tab:'hoje', dayOffset:0 };
+let state = { library:[], log:[], metrics:[], config:{}, visits:[], clients:[], knowledge:[],
+  tab:'hoje', dayOffset:0, openStrategy:{}, openKb:{}, kbFilter:'todos' };
 
 /* ================= HELPERS ================= */
 const fmtDate = d => { const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; };
 function isoWeek(d){ const dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); const dn=dt.getUTCDay()||7; dt.setUTCDate(dt.getUTCDate()+4-dn); const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1)); const wn=Math.ceil((((dt-ys)/86400000)+1)/7); return `${dt.getUTCFullYear()}-W${String(wn).padStart(2,'0')}`; }
+function parseFlexDate(str) {
+  if (!str) return '';
+  str = String(str).trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0,10);
+  const m = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  if (m) { let [,d,mo,y]=m; if (y.length===2) y='20'+y; return `${y}-${mo.padStart(2,'0')}-${d.padStart(2,'0')}`; }
+  return str;
+}
 
 async function api(action, payload) {
   if (!API_URL) { openConfig(); throw new Error('sem API configurada'); }
-  if (!action) {
-    const res = await fetch(API_URL);
-    return res.json();
-  }
+  if (!action) { const res = await fetch(API_URL); return res.json(); }
   const res = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action, ...payload }) });
   return res.json();
 }
 
 function openConfig() {
-  const bg = document.createElement('div');
-  bg.className = 'modal-bg';
+  const bg = document.createElement('div'); bg.className = 'modal-bg';
   bg.innerHTML = `<div class="modal">
     <h3 class="display">Conectar planilha</h3>
     <p style="font-size:12px;color:var(--muted)">Cole a URL do Apps Script publicado como App da Web (Implantar > Nova implantação).</p>
@@ -121,27 +141,26 @@ function openConfig() {
     <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn-primary" onclick="saveConfig()">Salvar</button>
       <button class="btn-secondary" onclick="this.closest('.modal-bg').remove()">Cancelar</button>
-    </div>
-  </div>`;
+    </div></div>`;
   document.body.appendChild(bg);
 }
 function saveConfig() {
   const val = document.getElementById('apiInput').value.trim();
   if (!val) return;
-  API_URL = val;
-  localStorage.setItem('nsp_api_url', val);
+  API_URL = val; localStorage.setItem('nsp_api_url', val);
   document.querySelector('.modal-bg').remove();
   load();
 }
+function closeModal() { const m = document.querySelector('.modal-bg'); if (m) m.remove(); }
 
 /* ================= LOAD / RENDER ================= */
 async function load() {
   try {
     const data = await api();
-    state.library = data.library || [];
-    state.log = data.log || [];
-    state.metrics = data.metrics || [];
-    state.config = data.config || {};
+    Object.assign(state, {
+      library: data.library||[], log: data.log||[], metrics: data.metrics||[], config: data.config||{},
+      visits: data.visits||[], clients: data.clients||[], knowledge: data.knowledge||[],
+    });
     localStorage.setItem('nsp_cache', JSON.stringify(state));
   } catch (e) {
     const cached = localStorage.getItem('nsp_cache');
@@ -149,23 +168,16 @@ async function load() {
   }
   render();
 }
-
 function showToast(msg) {
-  const t = document.createElement('div');
-  t.className = 'toast'; t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2500);
 }
-
 function weekNumber() {
   const start = state.config.startDate ? new Date(state.config.startDate + 'T00:00:00') : new Date();
   const diff = Math.floor((new Date() - start) / 86400000);
   return Math.max(1, Math.floor(diff / 7) + 1);
 }
-function currentPhase() {
-  const w = weekNumber();
-  return PHASES.find(p => w >= p.weeks[0] && w <= p.weeks[1]) || PHASES[PHASES.length - 1];
-}
+function currentPhase() { const w = weekNumber(); return PHASES.find(p => w >= p.weeks[0] && w <= p.weeks[1]) || PHASES[PHASES.length-1]; }
 function streak() {
   let count = 0;
   for (let i = 0; i < 60; i++) {
@@ -186,9 +198,6 @@ function render() {
   const viewDate = new Date(); viewDate.setDate(viewDate.getDate() + state.dayOffset);
   const viewKey = fmtDate(viewDate);
   const wd = viewDate.getDay();
-  const todaysTasks = state.library.filter(t => Number(t.day) === wd);
-  const doneIds = new Set(state.log.filter(l => l.date === viewKey && l.done === true).map(l => l.taskId));
-  const pct = todaysTasks.length ? Math.round((todaysTasks.filter(t => doneIds.has(t.id)).length / todaysTasks.length) * 100) : 0;
   const phase = currentPhase();
 
   let html = `
@@ -202,109 +211,401 @@ function render() {
   </header>
   <nav class="tabs">
     <button class="${state.tab==='hoje'?'active':''}" onclick="setTab('hoje')">Hoje</button>
-    <button class="${state.tab==='biblioteca'?'active':''}" onclick="setTab('biblioteca')">Biblioteca</button>
+    <button class="${state.tab==='agenda'?'active':''}" onclick="setTab('agenda')">Agenda</button>
+    <button class="${state.tab==='clientes'?'active':''}" onclick="setTab('clientes')">Clientes</button>
+    <button class="${state.tab==='guia'?'active':''}" onclick="setTab('guia')">Guia</button>
+    <button class="${state.tab==='biblioteca'?'active':''}" onclick="setTab('biblioteca')">Rotina</button>
     <button class="${state.tab==='metricas'?'active':''}" onclick="setTab('metricas')">Métricas</button>
     <button class="${state.tab==='fase'?'active':''}" onclick="setTab('fase')">Programa</button>
   </nav>
   <main>`;
 
-  if (state.tab === 'hoje') {
-    html += `
-    <div class="day-nav">
-      <button onclick="shiftDay(-1)">‹</button>
-      <div style="text-align:center"><div class="display" style="font-size:18px;font-weight:700">${WEEKDAY_LABEL[wd]}</div>
-        <div class="mono" style="font-size:11px;color:var(--muted)">${viewDate.toLocaleDateString('pt-BR')}</div></div>
-      <button onclick="shiftDay(1)">›</button>
-    </div>
-    <div class="gauge-wrap">${gaugeSvg(pct)}<div class="gauge-label"><div class="pct mono">${pct}%</div><div class="lbl">concluído</div></div></div>`;
-
-    if (!todaysTasks.length) html += `<div class="empty">Nenhuma tarefa cadastrada para ${WEEKDAY_LABEL[wd].toLowerCase()}. Adicione uma na aba Biblioteca.</div>`;
-
-    Object.entries(PILLARS).forEach(([pKey, pInfo]) => {
-      const tasks = todaysTasks.filter(t => t.pillar === pKey);
-      if (!tasks.length) return;
-      html += `<div class="pillar-block"><div class="pillar-title" style="color:${pInfo.color}">${pInfo.full}</div>`;
-      tasks.forEach(t => {
-        const done = doneIds.has(t.id);
-        const portTag = (t.portfolio !== 'ambos' && t.portfolio !== 'pessoal')
-          ? `<span class="tag" style="background:${PORTFOLIO[t.portfolio].color}33;color:${PORTFOLIO[t.portfolio].color}">${PORTFOLIO[t.portfolio].label.toUpperCase()}</span>` : '';
-        html += `<div class="task ${done?'done':''}" style="border-left:4px solid ${pInfo.color};--check-color:${pInfo.color}" onclick="toggleTask('${viewKey}','${t.id}')">
-          <div class="box">${done?'✓':''}</div>
-          <div><div class="ttitle">${t.title}${portTag}</div><div class="tdesc">${t.desc}</div></div>
-        </div>`;
-      });
-      html += `</div>`;
-    });
-  }
-
-  if (state.tab === 'biblioteca') {
-    html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div class="display" style="font-size:16px;font-weight:700">Biblioteca de tarefas</div>
-      <button class="btn-primary" onclick="openAddTask()">+ Nova</button></div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Toda tarefa aqui aparece automaticamente no dia da semana escolhido, todas as semanas.</div>`;
-    [1,2,3,4,5,6,0].forEach(d => {
-      const tasks = state.library.filter(t => Number(t.day) === d);
-      if (!tasks.length) return;
-      html += `<div style="margin-bottom:16px"><div class="mono" style="font-size:11px;color:var(--orange);font-weight:700;margin-bottom:6px">${WEEKDAY_SHORT[d]}</div>`;
-      tasks.forEach(t => {
-        const p = PILLARS[t.pillar];
-        html += `<div class="task" style="border-left:4px solid ${p.color}">
-          <div style="flex:1"><div class="ttitle">${t.title}</div><div class="tdesc">${p.label} · ${PORTFOLIO[t.portfolio].label}</div></div>
-          <button onclick="removeTask('${t.id}')" style="background:none;border:none;color:var(--muted)">🗑</button>
-        </div>`;
-      });
-      html += `</div>`;
-    });
-  }
-
-  if (state.tab === 'metricas') {
-    const wk = isoWeek(new Date());
-    const m = state.metrics.find(x => x.week === wk) || { visitas:'', propostas:'', fechamentos:'', faturamento:'', obs:'' };
-    html += `<div class="display" style="font-size:16px;font-weight:700">Métricas da semana</div>
-      <div class="mono" style="font-size:11px;color:var(--muted);margin-bottom:16px">${wk}</div>
-      <div class="grid2">
-        ${['visitas','propostas','fechamentos','faturamento'].map(f => `
-          <div class="field"><label>${({visitas:'Visitas/contatos',propostas:'Propostas enviadas',fechamentos:'Fechamentos',faturamento:'Faturamento (R$)'})[f]}</label>
-          <input type="text" inputmode="numeric" value="${m[f]||''}" onchange="updateMetric('${wk}','${f}',this.value)" class="mono"></div>`).join('')}
-      </div>
-      <div class="field"><label>Observações da semana</label><textarea onchange="updateMetric('${wk}','obs',this.value)">${m.obs||''}</textarea></div>`;
-    if (m.visitas && m.propostas) {
-      const t1 = Math.round((Number(m.propostas)/Math.max(1,Number(m.visitas)))*100);
-      const t2 = m.fechamentos ? ` · proposta → fechamento: ${Math.round((Number(m.fechamentos)/Math.max(1,Number(m.propostas)))*100)}%` : '';
-      html += `<div class="mono" style="font-size:12px;color:var(--teal);margin-bottom:20px">Taxa visita → proposta: ${t1}%${t2}</div>`;
-    }
-    html += `<div class="display" style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">Histórico recente</div>`;
-    const recent = [...state.metrics].sort((a,b)=>a.week.localeCompare(b.week)).slice(-8);
-    if (!recent.length) html += `<div style="font-size:12px;color:var(--muted)">Ainda sem semanas registradas.</div>`;
-    const maxVal = Math.max(1, ...recent.map(r => Number(r.propostas)||0));
-    recent.forEach(r => {
-      const barW = Math.max(4, ((Number(r.propostas)||0)/maxVal)*100);
-      html += `<div style="margin-bottom:8px"><div class="mono" style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
-        <span>${r.week}</span><span>${r.visitas||0}v · ${r.propostas||0}p · ${r.fechamentos||0}f</span></div>
-        <div style="height:6px;background:var(--panel-alt);border-radius:3px"><div style="height:6px;width:${barW}%;background:var(--orange);border-radius:3px"></div></div></div>`;
-    });
-  }
-
-  if (state.tab === 'fase') {
-    html += `<div class="display" style="font-size:16px;font-weight:700;margin-bottom:14px">Estrutura do programa</div>`;
-    PHASES.forEach(p => {
-      const active = p.key === phase.key;
-      html += `<div class="phase-card ${active?'active':''}">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <span class="display" style="font-weight:700;font-size:14px;color:${active?'var(--orange)':'var(--text)'}">${p.label.toUpperCase()}</span>
-          <span class="mono" style="font-size:11px;color:var(--muted)">${p.weeks[1]===999?`semana ${p.weeks[0]}+`:`semanas ${p.weeks[0]}–${p.weeks[1]}`}</span>
-        </div>
-        <div style="font-size:12px;color:var(--muted);margin-top:6px">${p.desc}</div>
-        ${active?`<div class="mono" style="font-size:10px;color:var(--orange);margin-top:6px">◉ VOCÊ ESTÁ AQUI · semana ${weekNumber()}</div>`:''}
-      </div>`;
-    });
-    html += `<div style="margin-top:20px;font-size:12px;color:var(--muted);line-height:1.6">
-      <strong style="color:var(--text)">Integração com o CRM:</strong> essa planilha é independente da sua planilha de prospecção. Para puxar números reais automaticamente, use uma fórmula <span class="mono">IMPORTRANGE</span> na aba Métricas apontando para a planilha do CRM — veja o README para o passo a passo.
-    </div>`;
-  }
+  if (state.tab === 'hoje') html += renderHoje(viewDate, viewKey, wd);
+  if (state.tab === 'agenda') html += renderAgenda();
+  if (state.tab === 'clientes') html += renderClientes();
+  if (state.tab === 'guia') html += renderGuia();
+  if (state.tab === 'biblioteca') html += renderBiblioteca();
+  if (state.tab === 'metricas') html += renderMetricas();
+  if (state.tab === 'fase') html += renderFase(phase);
 
   html += `</main>`;
   app.innerHTML = html;
+}
+
+/* ================= HOJE (bússola do dia: visitas + tarefas) ================= */
+function renderHoje(viewDate, viewKey, wd) {
+  const todaysTasks = state.library.filter(t => Number(t.day) === wd);
+  const doneIds = new Set(state.log.filter(l => l.date === viewKey && l.done === true).map(l => l.taskId));
+  const pct = todaysTasks.length ? Math.round((todaysTasks.filter(t => doneIds.has(t.id)).length / todaysTasks.length) * 100) : 0;
+  const todaysVisits = state.visits.filter(v => parseFlexDate(v.date) === viewKey);
+
+  let html = `
+  <div class="day-nav">
+    <button onclick="shiftDay(-1)">‹</button>
+    <div style="text-align:center"><div class="display" style="font-size:18px;font-weight:700">${WEEKDAY_LABEL[wd]}</div>
+      <div class="mono" style="font-size:11px;color:var(--muted)">${viewDate.toLocaleDateString('pt-BR')}</div></div>
+    <button onclick="shiftDay(1)">›</button>
+  </div>
+  <div class="gauge-wrap">${gaugeSvg(pct)}<div class="gauge-label"><div class="pct mono">${pct}%</div><div class="lbl">concluído</div></div></div>`;
+
+  if (todaysVisits.length) {
+    html += `<div class="section-title" style="color:var(--teal)">🧭 Agenda de hoje</div>`;
+    todaysVisits.forEach(v => { html += visitCard(v); });
+  }
+
+  if (!todaysTasks.length && !todaysVisits.length) {
+    html += `<div class="empty">Nada cadastrado para ${WEEKDAY_LABEL[wd].toLowerCase()}. Adicione tarefas na aba Rotina ou visitas na Agenda.</div>`;
+  }
+
+  Object.entries(PILLARS).forEach(([pKey, pInfo]) => {
+    const tasks = todaysTasks.filter(t => t.pillar === pKey);
+    if (!tasks.length) return;
+    html += `<div style="margin-bottom:18px"><div class="section-title" style="color:${pInfo.color}">${pInfo.full}</div>`;
+    tasks.forEach(t => {
+      const done = doneIds.has(t.id);
+      const portTag = (t.portfolio !== 'ambos' && t.portfolio !== 'pessoal')
+        ? `<span class="tag" style="background:${PORTFOLIO[t.portfolio].color}33;color:${PORTFOLIO[t.portfolio].color}">${PORTFOLIO[t.portfolio].label.toUpperCase()}</span>` : '';
+      html += `<div class="task ${done?'done':''}" style="border-left:4px solid ${pInfo.color};--check-color:${pInfo.color}" onclick="toggleTask('${viewDate ? fmtDate(viewDate) : ''}','${t.id}')">
+        <div class="box">${done?'✓':''}</div>
+        <div><div class="ttitle">${t.title}${portTag}</div><div class="tdesc">${t.desc}</div></div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  return html;
+}
+
+function visitCard(v) {
+  const port = PORTFOLIO[v.portfolio] || PORTFOLIO.ambos;
+  const statusClass = 'status-' + (v.status||'Pendente').toLowerCase();
+  return `<div class="card" style="border-left:4px solid ${port.color}">
+    <div class="card-head">
+      <div>
+        <div class="card-title">${v.cliente || v.empresa || 'Visita'}</div>
+        <div class="card-sub">${v.empresa && v.cliente ? v.empresa+' · ' : ''}${v.endereco||''}</div>
+      </div>
+      <span class="chip ${statusClass}">${v.status||'Pendente'}</span>
+    </div>
+    ${v.objetivo ? `<div class="tdesc" style="margin-top:6px">🎯 ${v.objetivo}</div>` : ''}
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <button class="btn-teal" onclick="cycleVisitStatus('${v.id}','${v.status||'Pendente'}')">✓ Marcar feita</button>
+      <button class="icon-btn" onclick="editVisit('${v.id}')">✎ editar</button>
+      <button class="icon-btn" onclick="removeVisit('${v.id}')">🗑</button>
+    </div>
+  </div>`;
+}
+
+/* ================= AGENDA (semana + importar planilha) ================= */
+function renderAgenda() {
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div class="display" style="font-size:16px;font-weight:700">Agenda de visitas</div>
+    <div style="display:flex;gap:6px">
+      <button class="btn-secondary" onclick="openImportVisits()">Importar</button>
+      <button class="btn-primary" onclick="openAddVisit()">+ Nova</button>
+    </div></div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Cole aqui a planilha de visitas da semana (Importar), ou cadastre uma a uma. Tudo fica editável e some da lista quando marcado como feita ou cancelada.</div>`;
+
+  const upcoming = [...state.visits].sort((a,b) => parseFlexDate(a.date).localeCompare(parseFlexDate(b.date)));
+  if (!upcoming.length) { html += `<div class="empty">Nenhuma visita cadastrada ainda.</div>`; return html; }
+
+  const grouped = {};
+  upcoming.forEach(v => { const k = parseFlexDate(v.date) || 'sem-data'; (grouped[k] = grouped[k]||[]).push(v); });
+
+  Object.keys(grouped).sort().forEach(dateKey => {
+    let label = dateKey;
+    if (dateKey !== 'sem-data') {
+      const d = new Date(dateKey + 'T00:00:00');
+      label = `${WEEKDAY_LABEL[d.getDay()]} · ${d.toLocaleDateString('pt-BR')}`;
+    } else label = 'Sem data definida';
+    html += `<div class="weekday-header">${label.toUpperCase()}</div>`;
+    grouped[dateKey].forEach(v => { html += visitCard(v); });
+  });
+  return html;
+}
+
+function openImportVisits() {
+  const bg = document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML = `<div class="modal">
+    <h3 class="display">Importar visitas</h3>
+    <p style="font-size:12px;color:var(--muted)">Na sua planilha de visitas, selecione as células (sem o cabeçalho) na ordem: <b>Data, Cliente, Empresa, Portfólio (bondmann/bransales/ambos), Endereço, Objetivo</b>, copie (Ctrl+C) e cole abaixo.</p>
+    <textarea id="importText" class="mono" placeholder="12/08/2025	João Silva	Metalúrgica ABC	bondmann	Rua X, 100	Apresentar novo produto"></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-primary" onclick="submitImportVisits()">Importar</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+    </div></div>`;
+  document.body.appendChild(bg);
+}
+async function submitImportVisits() {
+  const raw = document.getElementById('importText').value.trim();
+  if (!raw) return;
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+  const rows = lines.map(line => {
+    const cols = line.split('\t').length > 1 ? line.split('\t') : line.split(',');
+    const [date, cliente, empresa, portfolio, endereco, objetivo] = cols.map(c => (c||'').trim());
+    return { date: parseFlexDate(date), cliente, empresa, portfolio: (portfolio||'ambos').toLowerCase(), endereco, objetivo };
+  }).filter(r => r.cliente || r.empresa);
+  closeModal();
+  if (!rows.length) { showToast('nada reconhecido para importar'); return; }
+  try {
+    await api('importVisits', { rows });
+    showToast(`${rows.length} visita(s) importada(s)`);
+    await load();
+  } catch(e) { showToast('falha ao importar'); }
+}
+
+function openAddVisit(existing) {
+  const v = existing || { date:'', cliente:'', empresa:'', portfolio:'ambos', endereco:'', objetivo:'', notas:'' };
+  const bg = document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML = `<div class="modal"><h3 class="display">${existing?'Editar':'Nova'} visita</h3>
+    <input id="vDate" type="date" value="${v.date||''}">
+    <input id="vCliente" placeholder="Nome do contato" value="${v.cliente||''}">
+    <input id="vEmpresa" placeholder="Empresa" value="${v.empresa||''}">
+    <select id="vPortfolio">${Object.entries(PORTFOLIO).map(([k,p])=>`<option value="${k}" ${v.portfolio===k?'selected':''}>${p.label}</option>`).join('')}</select>
+    <input id="vEndereco" placeholder="Endereço" value="${v.endereco||''}">
+    <textarea id="vObjetivo" placeholder="Objetivo da visita">${v.objetivo||''}</textarea>
+    <div style="display:flex;gap:8px"><button class="btn-primary" onclick="submitVisit('${existing?existing.id:''}')">Salvar</button>
+    <button class="btn-secondary" onclick="closeModal()">Cancelar</button></div></div>`;
+  document.body.appendChild(bg);
+}
+async function submitVisit(id) {
+  const visit = {
+    date: document.getElementById('vDate').value,
+    cliente: document.getElementById('vCliente').value.trim(),
+    empresa: document.getElementById('vEmpresa').value.trim(),
+    portfolio: document.getElementById('vPortfolio').value,
+    endereco: document.getElementById('vEndereco').value.trim(),
+    objetivo: document.getElementById('vObjetivo').value.trim(),
+  };
+  closeModal();
+  if (id) {
+    Object.keys(visit).forEach(f => api('updateVisit', { id, field:f, value:visit[f] }));
+    const idx = state.visits.findIndex(v => v.id === id);
+    if (idx>-1) state.visits[idx] = { ...state.visits[idx], ...visit };
+    render();
+  } else {
+    const res = await api('addVisit', { visit });
+    state.visits.push({ ...visit, id: res.id, status:'Pendente' });
+    render();
+  }
+}
+function editVisit(id) { openAddVisit(state.visits.find(v => v.id === id)); }
+async function removeVisit(id) {
+  state.visits = state.visits.filter(v => v.id !== id); render();
+  try { await api('removeVisit', { id }); } catch(e) { showToast('falha ao salvar'); }
+}
+async function cycleVisitStatus(id, current) {
+  const next = current === 'Pendente' ? 'Feita' : 'Pendente';
+  const v = state.visits.find(v => v.id === id); if (v) v.status = next; render();
+  try { await api('updateVisit', { id, field:'status', value: next }); } catch(e) { showToast('falha ao salvar'); }
+}
+
+/* ================= CLIENTES ================= */
+function renderClientes() {
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="display" style="font-size:16px;font-weight:700">Clientes & estratégia</div>
+    <button class="btn-primary" onclick="openAddClient()">+ Novo</button></div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Cadastre segmento/CNAE de cada cliente e peça uma sugestão de estratégia baseada nos guias validados.</div>`;
+  if (!state.clients.length) { html += `<div class="empty">Nenhum cliente cadastrado ainda.</div>`; return html; }
+  state.clients.forEach(c => {
+    const port = PORTFOLIO[c.portfolio] || PORTFOLIO.ambos;
+    html += `<div class="card" style="border-left:4px solid ${port.color}">
+      <div class="card-head">
+        <div><div class="card-title">${c.empresa}</div>
+          <div class="card-sub">${c.segmento||'sem segmento'} ${c.cidade?'· '+c.cidade:''} · potencial ${c.potencial||'—'}</div></div>
+        <button class="icon-btn" onclick="editClient('${c.id}')">✎</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="btn-teal" onclick="runStrategy('${c.id}')">💡 Sugerir estratégia</button>
+      </div>
+      <div id="strategy-${c.id}" class="kb-content ${state.openStrategy[c.id]?'open':''}"></div>
+    </div>`;
+  });
+  return html;
+}
+function openAddClient(existing) {
+  const c = existing || { empresa:'', cnpj:'', cnae:'', segmento:'', portfolio:'ambos', contato:'', telefone:'', cidade:'', potencial:'Médio', notas:'' };
+  const bg = document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML = `<div class="modal"><h3 class="display">${existing?'Editar':'Novo'} cliente</h3>
+    <input id="cEmpresa" placeholder="Empresa" value="${c.empresa||''}">
+    <input id="cCnpj" placeholder="CNPJ" value="${c.cnpj||''}">
+    <input id="cCnae" placeholder="CNAE" value="${c.cnae||''}">
+    <input id="cSegmento" placeholder="Segmento (ex: metalúrgica, transportadora)" value="${c.segmento||''}">
+    <select id="cPortfolio">${Object.entries(PORTFOLIO).map(([k,p])=>`<option value="${k}" ${c.portfolio===k?'selected':''}>${p.label}</option>`).join('')}</select>
+    <input id="cContato" placeholder="Contato" value="${c.contato||''}">
+    <input id="cTelefone" placeholder="Telefone" value="${c.telefone||''}">
+    <input id="cCidade" placeholder="Cidade" value="${c.cidade||''}">
+    <select id="cPotencial">${['Alto','Médio','Baixo'].map(p=>`<option value="${p}" ${c.potencial===p?'selected':''}>${p}</option>`).join('')}</select>
+    <textarea id="cNotas" placeholder="Notas">${c.notas||''}</textarea>
+    <div style="display:flex;gap:8px"><button class="btn-primary" onclick="submitClient('${existing?existing.id:''}')">Salvar</button>
+    <button class="btn-secondary" onclick="closeModal()">Cancelar</button></div></div>`;
+  document.body.appendChild(bg);
+}
+async function submitClient(id) {
+  const client = {
+    empresa: document.getElementById('cEmpresa').value.trim(), cnpj: document.getElementById('cCnpj').value.trim(),
+    cnae: document.getElementById('cCnae').value.trim(), segmento: document.getElementById('cSegmento').value.trim(),
+    portfolio: document.getElementById('cPortfolio').value, contato: document.getElementById('cContato').value.trim(),
+    telefone: document.getElementById('cTelefone').value.trim(), cidade: document.getElementById('cCidade').value.trim(),
+    potencial: document.getElementById('cPotencial').value, notas: document.getElementById('cNotas').value.trim(),
+  };
+  closeModal();
+  if (id) {
+    Object.keys(client).forEach(f => api('updateClient', { id, field:f, value:client[f] }));
+    const idx = state.clients.findIndex(c => c.id === id);
+    if (idx>-1) state.clients[idx] = { ...state.clients[idx], ...client };
+    render();
+  } else {
+    const res = await api('addClient', { client });
+    state.clients.push({ ...client, id: res.id });
+    render();
+  }
+}
+function editClient(id) { openAddClient(state.clients.find(c => c.id === id)); }
+async function runStrategy(clientId) {
+  state.openStrategy[clientId] = true;
+  const box = document.getElementById('strategy-'+clientId);
+  box.className = 'kb-content open'; box.innerHTML = 'buscando sugestões…';
+  try {
+    const res = await api('suggestStrategy', { clientId });
+    if (res.error || !res.suggestions) { box.innerHTML = 'não foi possível sugerir — revise segmento/portfólio do cliente.'; return; }
+    box.innerHTML = res.suggestions.map(s => `<div style="margin-bottom:8px"><b style="color:var(--text)">${s.title}</b><br>${s.content}</div>`).join('');
+  } catch(e) { box.innerHTML = 'falha ao buscar sugestões.'; }
+}
+
+/* ================= GUIA (conhecimento validado) ================= */
+function renderGuia() {
+  let html = `<div class="display" style="font-size:16px;font-weight:700;margin-bottom:6px">Guia de vendas</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Tópicos já validados — consulte antes de uma negociação ou visita importante.</div>
+    <div class="filter-row">
+      <select onchange="setKbFilter(this.value)">
+        <option value="todos" ${state.kbFilter==='todos'?'selected':''}>Todos os portfólios</option>
+        <option value="bondmann" ${state.kbFilter==='bondmann'?'selected':''}>Bondmann</option>
+        <option value="bransales" ${state.kbFilter==='bransales'?'selected':''}>Bransales</option>
+        <option value="ambos" ${state.kbFilter==='ambos'?'selected':''}>Ambos</option>
+        <option value="pessoal" ${state.kbFilter==='pessoal'?'selected':''}>Pessoal</option>
+      </select>
+    </div>`;
+  Object.entries(PILLARS).forEach(([pKey, pInfo]) => {
+    let items = state.knowledge.filter(k => k.pillar === pKey);
+    if (state.kbFilter !== 'todos') items = items.filter(k => k.portfolio === state.kbFilter);
+    if (!items.length) return;
+    html += `<div class="section-title" style="color:${pInfo.color}">${pInfo.full}</div>`;
+    items.forEach(k => {
+      const open = !!state.openKb[k.id];
+      html += `<div class="card" style="border-left:4px solid ${pInfo.color};cursor:pointer" onclick="toggleKb('${k.id}')">
+        <div class="card-title">${k.title} <span style="color:var(--muted);font-weight:400">${open?'▲':'▼'}</span></div>
+        <div class="kb-content ${open?'open':''}">${k.content}</div>
+      </div>`;
+    });
+  });
+  return html;
+}
+function setKbFilter(v) { state.kbFilter = v; render(); }
+function toggleKb(id) { state.openKb[id] = !state.openKb[id]; render(); }
+
+/* ================= BIBLIOTECA (rotina) ================= */
+function renderBiblioteca() {
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="display" style="font-size:16px;font-weight:700">Rotina semanal</div>
+    <button class="btn-primary" onclick="openAddTask()">+ Nova</button></div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Toda tarefa aqui aparece automaticamente no dia da semana escolhido, todas as semanas.</div>`;
+  [1,2,3,4,5,6,0].forEach(d => {
+    const tasks = state.library.filter(t => Number(t.day) === d);
+    if (!tasks.length) return;
+    html += `<div class="weekday-header">${WEEKDAY_SHORT[d]}</div>`;
+    tasks.forEach(t => {
+      const p = PILLARS[t.pillar];
+      html += `<div class="task" style="border-left:4px solid ${p.color}">
+        <div style="flex:1"><div class="ttitle">${t.title}</div><div class="tdesc">${p.label} · ${PORTFOLIO[t.portfolio].label}</div></div>
+        <button onclick="removeTask('${t.id}')" style="background:none;border:none;color:var(--muted)">🗑</button>
+      </div>`;
+    });
+  });
+  return html;
+}
+function openAddTask() {
+  const bg = document.createElement('div'); bg.className='modal-bg';
+  bg.innerHTML = `<div class="modal"><h3 class="display">Nova tarefa</h3>
+    <input id="ntTitle" placeholder="Título da tarefa">
+    <textarea id="ntDesc" placeholder="Descrição / instrução"></textarea>
+    <select id="ntDay">${WEEKDAY_LABEL.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select>
+    <select id="ntPillar">${Object.entries(PILLARS).map(([k,v])=>`<option value="${k}">${v.full}</option>`).join('')}</select>
+    <select id="ntPort">${Object.entries(PORTFOLIO).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}</select>
+    <div style="display:flex;gap:8px"><button class="btn-primary" onclick="submitAddTask()">Salvar</button>
+    <button class="btn-secondary" onclick="closeModal()">Cancelar</button></div></div>`;
+  document.body.appendChild(bg);
+}
+async function submitAddTask() {
+  const task = {
+    title: document.getElementById('ntTitle').value.trim(), desc: document.getElementById('ntDesc').value.trim(),
+    day: Number(document.getElementById('ntDay').value), pillar: document.getElementById('ntPillar').value,
+    portfolio: document.getElementById('ntPort').value,
+  };
+  if (!task.title) return;
+  closeModal();
+  const res = await api('addTask', { task });
+  state.library.push({ ...task, id: res.id, ativo: true });
+  render();
+}
+async function removeTask(id) {
+  state.library = state.library.filter(t => t.id !== id); render();
+  try { await api('removeTask', { id }); } catch(e) { showToast('falha ao salvar'); }
+}
+
+/* ================= MÉTRICAS ================= */
+function renderMetricas() {
+  const wk = isoWeek(new Date());
+  const m = state.metrics.find(x => x.week === wk) || { visitas:'', propostas:'', fechamentos:'', faturamento:'', obs:'' };
+  let html = `<div class="display" style="font-size:16px;font-weight:700">Métricas da semana</div>
+    <div class="mono" style="font-size:11px;color:var(--muted);margin-bottom:16px">${wk}</div>
+    <div class="grid2">
+      ${['visitas','propostas','fechamentos','faturamento'].map(f => `
+        <div class="field"><label>${({visitas:'Visitas/contatos',propostas:'Propostas enviadas',fechamentos:'Fechamentos',faturamento:'Faturamento (R$)'})[f]}</label>
+        <input type="text" inputmode="numeric" value="${m[f]||''}" onchange="updateMetric('${wk}','${f}',this.value)" class="mono"></div>`).join('')}
+    </div>
+    <div class="field"><label>Observações da semana</label><textarea onchange="updateMetric('${wk}','obs',this.value)">${m.obs||''}</textarea></div>`;
+  if (m.visitas && m.propostas) {
+    const t1 = Math.round((Number(m.propostas)/Math.max(1,Number(m.visitas)))*100);
+    const t2 = m.fechamentos ? ` · proposta → fechamento: ${Math.round((Number(m.fechamentos)/Math.max(1,Number(m.propostas)))*100)}%` : '';
+    html += `<div class="mono" style="font-size:12px;color:var(--teal);margin-bottom:20px">Taxa visita → proposta: ${t1}%${t2}</div>`;
+  }
+  html += `<div class="display" style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">Histórico recente</div>`;
+  const recent = [...state.metrics].sort((a,b)=>a.week.localeCompare(b.week)).slice(-8);
+  if (!recent.length) html += `<div style="font-size:12px;color:var(--muted)">Ainda sem semanas registradas.</div>`;
+  const maxVal = Math.max(1, ...recent.map(r => Number(r.propostas)||0));
+  recent.forEach(r => {
+    const barW = Math.max(4, ((Number(r.propostas)||0)/maxVal)*100);
+    html += `<div style="margin-bottom:8px"><div class="mono" style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
+      <span>${r.week}</span><span>${r.visitas||0}v · ${r.propostas||0}p · ${r.fechamentos||0}f</span></div>
+      <div style="height:6px;background:var(--panel-alt);border-radius:3px"><div style="height:6px;width:${barW}%;background:var(--orange);border-radius:3px"></div></div></div>`;
+  });
+  return html;
+}
+async function updateMetric(week, field, value) {
+  let m = state.metrics.find(x => x.week === week);
+  if (!m) { m = { week }; state.metrics.push(m); }
+  m[field] = value;
+  try { await api('updateMetric', { week, field, value }); } catch(e) { showToast('falha ao salvar'); }
+}
+
+/* ================= PROGRAMA / FASE ================= */
+function renderFase(phase) {
+  let html = `<div class="display" style="font-size:16px;font-weight:700;margin-bottom:14px">Estrutura do programa</div>`;
+  PHASES.forEach(p => {
+    const active = p.key === phase.key;
+    html += `<div class="phase-card ${active?'active':''}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="display" style="font-weight:700;font-size:14px;color:${active?'var(--orange)':'var(--text)'}">${p.label.toUpperCase()}</span>
+        <span class="mono" style="font-size:11px;color:var(--muted)">${p.weeks[1]===999?`semana ${p.weeks[0]}+`:`semanas ${p.weeks[0]}–${p.weeks[1]}`}</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">${p.desc}</div>
+      ${active?`<div class="mono" style="font-size:10px;color:var(--orange);margin-top:6px">◉ VOCÊ ESTÁ AQUI · semana ${weekNumber()}</div>`:''}
+    </div>`;
+  });
+  html += `<div style="margin-top:20px;font-size:12px;color:var(--muted);line-height:1.6">
+    <strong style="color:var(--text)">Como usar as novas abas:</strong> em <b>Agenda</b> ficam as visitas da semana (importe direto da sua planilha de visitas ou cadastre manualmente) — o que estiver marcado para hoje já aparece automaticamente na aba <b>Hoje</b>. Em <b>Clientes</b>, cadastre segmento/CNAE de cada empresa e peça uma sugestão de estratégia baseada nos guias validados da aba <b>Guia</b>. A aba <b>Rotina</b> é a antiga biblioteca de tarefas recorrentes.
+  </div>`;
+  return html;
 }
 
 function gaugeSvg(pct) {
@@ -316,7 +617,7 @@ function gaugeSvg(pct) {
   </svg>`;
 }
 
-/* ================= ACTIONS ================= */
+/* ================= AÇÕES GERAIS ================= */
 function setTab(t) { state.tab = t; render(); }
 function shiftDay(n) { state.dayOffset += n; render(); }
 
@@ -325,44 +626,6 @@ async function toggleTask(date, taskId) {
   if (existing) existing.done = !existing.done; else state.log.push({date,taskId,done:true});
   render();
   try { await api('toggleTask', {date, taskId}); } catch(e) { showToast('falha ao salvar — verifique a conexão'); }
-}
-
-function openAddTask() {
-  const bg = document.createElement('div'); bg.className='modal-bg';
-  bg.innerHTML = `<div class="modal"><h3 class="display">Nova tarefa</h3>
-    <input id="ntTitle" placeholder="Título da tarefa">
-    <textarea id="ntDesc" placeholder="Descrição / instrução"></textarea>
-    <select id="ntDay">${WEEKDAY_LABEL.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select>
-    <select id="ntPillar">${Object.entries(PILLARS).map(([k,v])=>`<option value="${k}">${v.full}</option>`).join('')}</select>
-    <select id="ntPort">${Object.entries(PORTFOLIO).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}</select>
-    <div style="display:flex;gap:8px"><button class="btn-primary" onclick="submitAddTask()">Salvar</button>
-    <button class="btn-secondary" onclick="this.closest('.modal-bg').remove()">Cancelar</button></div></div>`;
-  document.body.appendChild(bg);
-}
-async function submitAddTask() {
-  const task = {
-    title: document.getElementById('ntTitle').value.trim(),
-    desc: document.getElementById('ntDesc').value.trim(),
-    day: Number(document.getElementById('ntDay').value),
-    pillar: document.getElementById('ntPillar').value,
-    portfolio: document.getElementById('ntPort').value,
-  };
-  if (!task.title) return;
-  document.querySelector('.modal-bg').remove();
-  const res = await api('addTask', { task });
-  state.library.push({ ...task, id: res.id, ativo: true });
-  render();
-}
-async function removeTask(id) {
-  state.library = state.library.filter(t => t.id !== id);
-  render();
-  try { await api('removeTask', { id }); } catch(e) { showToast('falha ao salvar'); }
-}
-async function updateMetric(week, field, value) {
-  let m = state.metrics.find(x => x.week === week);
-  if (!m) { m = { week }; state.metrics.push(m); }
-  m[field] = value;
-  try { await api('updateMetric', { week, field, value }); } catch(e) { showToast('falha ao salvar'); }
 }
 
 /* ================= INIT ================= */
